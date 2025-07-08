@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Loom | Developer, Artisan, Poet</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #8a4baf; /* A rich, creative purple */
+            --secondary-color: #f7b733; /* A warm, friendly yellow/orange */
+            --bg-color: #1a1423; /* A deep purple, almost black, background */
+            --text-color: #e0e0e0;
+            --card-bg-color: rgba(30, 30, 50, 0.7);
+            --heading-font: 'Playfair Display', serif;
+            --body-font: 'Poppins', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--body-font);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            /* --- The Background Image --- */
+            background-image: url('https://images.unsplash.com/photo-1581090700227-1e37b190418e?auto=format&fit=crop&w=1600&q=80 ');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 0 2rem;
+        }
+        
+        section {
+            padding: 5rem 0;
+            background-color: rgba(26, 26, 46, 0.5); 
+            backdrop-filter: blur(5px);
+        }
+        
+        section:not(#hero) {
+            margin-top: 1px;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--heading-font);
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+            color: #1e1e32;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(26, 20, 35, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            font-family: var(--heading-font);
+            font-size: 1.5rem;
+            gap: 10px;
+        }
+        
+        .logo-link svg {
+            height: 40px;
+            width: auto;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 2rem;
+            color: white;
+        }
+        
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            background-color: transparent;
+            backdrop-filter: none;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: auto;
+            background: rgba(30, 30, 50, 0.7);
+            padding: 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .hero-content .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            font-family: var(--body-font);
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--card-bg-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        }
+        
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .project-card-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-card-content p {
+            flex-grow: 1;
+        }
+
+        .project-card h3 {
+            color: var(--primary-color);
+        }
+
+        .project-links {
+            margin-top: 1rem;
+        }
+
+        .project-links a {
+            margin-right: 1rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        #whatsapp-form {
+            max-width: 600px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            color: white;
+            font-family: var(--body-font);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #aaa;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 1px;
+            background-color: rgba(26, 20, 35, 0.7);
+        }
+        
+        .social-links a {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            margin: 0 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            h2 { font-size: 2rem; }
+            
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--bg-color);
+                padding: 1rem 0;
+            }
+
+            .nav-links.active { display: flex; }
+            
+            .nav-links li {
+                margin: 0;
+                text-align: center;
+                padding: 1rem 0;
+            }
+
+            .hamburger { display: block; }
+            #hero { text-align: center; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content .subtitle { font-size: 1.2rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="#hero" class="logo-link">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M65,5 C45,15 30,50 35,70 C40,90 65,95 75,85 C95,65 90,25 65,5Z" fill="var(--primary-color)" transform="rotate(-20 50 50)"/>
+                    <path d="M68,12 C80,30 75,60 65,75" stroke="rgba(255,255,255,0.5)" stroke-width="2" fill="none" transform="rotate(-20 50 50)"/>
+                    <text x="25" y="65" font-family="monospace" font-size="30" font-weight="bold" fill="white"></></text>
+                    <circle cx="75" cy="40" r="10" fill="var(--secondary-color)" />
+                    <circle cx="72" cy="38" r="1.5" fill="var(--bg-color)" />
+                    <circle cx="78" cy="38" r="1.5" fill="var(--bg-color)" />
+                    <circle cx="72" cy="42" r="1.5" fill="var(--bg-color)" />
+                    <circle cx="78" cy="42" r="1.5" fill="var(--bg-color)" />
+                </svg>
+                <span>The Digital Loom</span>
+            </a>
+            
+            <nav>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#projects">Creations</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger" id="hamburger">
+                ☰
+            </div>
+        </div>
+    </header>
+
+    <section id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Hi, I'm Hlima Masud</h1>
+                <p class="subtitle">Front-End Developer • Handmade Kidswear Artisan • Poet</p>
+                <p>I weave stories with threads, code, and verse. Welcome to my creative world where technology meets tangible craftsmanship and lyrical expression.</p>
+                 
+                <a href="#projects" class="btn">View My Creations</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <p style="text-align: center; max-width: 700px; margin: auto;">  
+            <p>Halima Masud  a multi-talented creative force from Edo State, Nigeria,
+                 blending the worlds of <strong>technology</strong> and <strong>traditiona craftsmanship. </strong>
+                  As a <strong>skilled front-end developer,</strong> i builds beautiful, responsive websites 
+                  that provide seamless digital experiences.
+                   my passion for storytelling extends beyond code into the realm of <strong> poetry,</strong>
+                    where i weaves words with emotion and insight.
+                     With a deep appreciation for  <strong>Digital Loom,</strong>
+                      i also designs and produces unique <strong>handmade wear</strong> for children.
+                       At just <strong>23,</strong>
+                        am a remarkable example of a new generation of Nigerian 
+                        creatives, who masterfully merge <strong>digital innovation with heartfelt, 
+                            and tangible art.</p></strong><br><br>  
+                <br><br>
+                These three disciplines, while different, are connected by a common thread: <strong>the act of creation.</strong> <strong>The precision of coding</strong> sharpens my eye for sewing, and the <strong>storytelling of poetry</strong> infuses my designs—both digital and physical—with heart and purpose.<br><br>
+            </p> 
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <h2>My Creations</h2>
+            <div class="project-grid">
+
+                <div class="project-card">
+                    <img src=" https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1600&q=80 " alt=" ">
+                    <div class="project-card-content">
+                        <h3>The "Wildflower" Linen Dress</h3>
+                        <p>A hand-sewn dress made from soft, breathable linen, perfect for sunny days and special occasions. Features a Peter Pan collar and natural shell buttons.</p>
+                        <div class="project-links">
+                            <a href="#" target="_blank">View on Etsy/Shop</a>
+                            <a href="#contact">Request Custom Order</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=1600&q=80" alt="Website screenshot">
+                    <div class="project-card-content">
+                        <h3>Author Portfolio Website</h3>
+                        <p>A responsive portfolio website for a children's book author, built with HTML, CSS, and JavaScript. Features a clean design to showcase their books.</p>
+                        <div class="project-links">
+                            <a href="#" target="_blank">Live Demo</a>
+                            <a href="#" target="_blank">View Code</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <img src="  https://images.unsplash.com/photo-1481627834876-b7833e8f5570?q=80&w=2128&auto=format&fit=crop" alt=" ">
+                    <div class="project-card-content">
+                        <h3>Poem: " One Body, Diffrent Pattern"</h3>
+                        <p> Dem say Africa na just one place,
+                            Like say na only one expression dey our face.
+                            But if you look am well, you go understand
+                            The kind of wonder wey dey for this land.
+                            We be the cloth wey God himself design,
+                            One body, different pattern, wey dey shine.
+                            <br><br>
+                            Listen… you hear the rhythm of the drum?
+                            E dey call everybody say make dem come.
+                            The beat for wedding, beat wey sweet for street,
+                            The one wey make old woman move her feet.
+                            The pot of jollof wey dey cause friendly fight,
+                            The smell of suya burning in the night.
+                            Na different story grandmama dey tell,
+                            But all of them dey wish our children well.</p>
+                        <div class="project-links">
+                            <a href="#" target="_blank">Read Full Poem</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <p style="text-align: center; max-width: 600px; margin: -2rem auto 3rem auto;">
+                Have a project in mind, a collaboration idea, or just want to talk about creativity? Send me a message directly on WhatsApp!
+            </p>
+
+            <form id="whatsapp-form">
+                <div class="form-group">
+                    <input type="text" id="wa-name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="wa-email" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <textarea id="wa-message" rows="6" placeholder="Your Message" required></textarea>
+                </div>
+                <button type="button" id="send-btn" class="btn">Send via WhatsApp</button>
+            </form>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="social-links">
+                <a href=" https://whatsapp.com/channel/0029VaGMmvQ7NoZzlcMpud2N" target="_blank" title="LinkedIn">WhatsApp</a>
+                <a href="https://github.com/pretty49/my-portfolio" target="_blank" title="GitHub">github</a>
+                <a href="#" target="_blank" title="Instagram"></a>
+            </div>
+            <p>© 2024 The Digital Loom. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPT FOR WHATSAPP INTEGRATION -->
+    <script>
+        const sendBtn = document.getElementById('send-btn');
+
+        sendBtn.addEventListener('click', () => {
+            // --- IMPORTANT: REPLACE WITH YOUR NUMBER ---
+            // Use your full number in international format, without '+', spaces, or dashes.
+            // For example: 2341234567890
+            const phoneNumber = '2347049111844'; 
+
+            // Get values from the form fields
+            const name = document.getElementById('wa-name').value;
+            const email = document.getElementById('wa-email').value;
+            const message = document.getElementById('wa-message').value;
+            
+            // Check if all fields are filled
+            if (!name || !email || !message) {
+                alert('Please fill out all fields before sending.');
+                return;
+            }
+
+            // Create the pre-filled message text
+            const messageBody = `*New Message from Portfolio!*
+---------------------------
+*Name:* ${name}
+*Email:* ${email}
+---------------------------
+*Message:*
+${message}`;
+
+            // URL-encode the message text to handle special characters and spaces
+            const encodedMessage = encodeURIComponent(messageBody);
+
+            // Create the final WhatsApp URL
+            const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+            // Open the URL in a new browser tab, which will launch WhatsApp
+            window.open(whatsappURL, '_blank');
+        });
+    </script>
+
+
+    <!-- --- MOBILE NAVIGATION SCRIPT --- -->
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        navLinks.addEventListener('click', () => {
+             if (navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
